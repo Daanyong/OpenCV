@@ -14,6 +14,9 @@
     cv.imshow('imgs', imgs)
     cv.waitKey(0)
     cv.destroyAllWindows()
+  #### 결과화면
+<img width="2157" alt="image" src="https://github.com/user-attachments/assets/60ab6505-0f75-475b-a903-6fb34f70ad01" />
+
 ---
   ## 02. 웹캠 영상에서 에지 검출
   웹캠을 사용하여 실시간 비디오 스트림을 가져온다
@@ -34,8 +37,9 @@
     key = cv.waitKey(1)
     if key == ord('q'):
         break 
+  #### 결과화면
+<img width="962" alt="image" src="https://github.com/user-attachments/assets/8f13bee8-c33e-4aeb-9344-96bdcbda7fdf" />
 
-  
 ---
   ## 03. 마우스로 영역 선택 및 ROI(관심영역) 추출
   이미지를 불러오고 사용자가 마우스로 클릭하고 드래그하여 관심영역(ROI)을 선택
@@ -48,8 +52,29 @@
   #### 요구사항 2: cv.setMouseCallback()을 사용하여 마우스 이벤트를 처리
     cv.setMouseCallback('Drawing', draw)
   #### 요구사항 3: 사용자가 클릭한 시작점에서 드래그하여 사각형을 그리며 영역을 선택
-    
+    if event == cv.EVENT_LBUTTONDOWN:
+        drawing = True
+        ix, iy = x, y 
+
+    elif event == cv.EVENT_MOUSEMOVE:
+        if drawing:
+            tmp_img = img.copy()
+            cv.rectangle(tmp_img, (ix,iy), (x,y), (0,0,255), 2)
+            cv.imshow('Drawing', tmp_img)
   #### 요구사항 4: 마우스를 놓으면 해당 영역을 잘라내서 별도의 창에 출력
+    elif event == cv.EVENT_LBUTTONUP:
+        drawing = False
+        ROI = img[iy:y, ix:x]
+        cv.imshow('ROI', ROI)
   #### 요구사항 5: r키를 누르면 영역 선택을 리셋하고 처음부터 다시 선택
+    if cv.waitKey(1) == ord('r'):
+        ROI = None
+        cv.destroyWindow("ROI")
+        img = cv.imread('soccer.jpg')
+        cv.imshow('Drawing', img)
   #### 요구사항 6: s키를 누르면 선택한 영역을 이미지 파일로 저장
-  
+    elif cv.waitKey(1) == ord('s') and ROI is not None:
+        cv.imwrite('ROI.jpg', ROI)
+        print('ROI 저장 완료')
+  #### 결과화면
+  <img width="1076" alt="image" src="https://github.com/user-attachments/assets/c11ce72d-a42a-4fa1-a72a-44385b8108eb" />
