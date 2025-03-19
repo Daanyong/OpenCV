@@ -12,10 +12,25 @@
     retval, binary = cv.threshold(gray, 127, 255, cv.THRESH_BINARY)
 #### 요구사항 4: cv.calcHist()를 사용해 히스토그램을 계산하고, matplotlib으로 시각화
     hist = cv.calcHist([gray], [0], None, [256], [0, 256])
-    plt.plot(hist, color='r', linewidth=1)
+    hist_binary = cv.calcHist([binary], [0], None, [256], [0, 256])
+
+    plt.figure(figsize=(12, 5))
+    
+    plt.subplot(1, 2, 1)
+    plt.plot(hist_gray, color='b', linewidth=1)
+    plt.title('Histogram of Grayscale Image')
+    plt.xlabel('Pixel Value')
+    plt.ylabel('Frequency')
+    
+    plt.subplot(1, 2, 2)
+    plt.plot(hist_binary, color='b', linewidth=1)
+    plt.title('Histogram of Binary Image')
+    plt.xlabel('Pixel Value (0 = Black, 255 = White)')
+    plt.ylabel('Frequency')
+
     plt.show()
 #### 결과화면
-<img width="447" alt="image" src="https://github.com/user-attachments/assets/828c0c06-b0d5-46a2-804f-f159fb466816" />
+<img width="829" alt="image" src="https://github.com/user-attachments/assets/1127266d-cf89-4882-890c-55f8541477f2" />
 
 ---
 
