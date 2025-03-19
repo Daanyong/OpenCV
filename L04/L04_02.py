@@ -22,4 +22,5 @@ closing = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
 result = np.hstack((image, dilation, erosion, opening, closing))
 
 plt.imshow(result)
+plt.title('Original | Dilation | Erosion | Opening | Closing')
 plt.show()
