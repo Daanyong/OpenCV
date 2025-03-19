@@ -22,7 +22,7 @@ new_cols, new_rows = int(cols * 1.5), int(rows * 1.5)
 # 요구사항 3: INTER_LINEAR을 사용하여 선형 보간을 적용하세요
 rotated_scaled_image = cv2.warpAffine(image, rotation_matrix, (new_cols, new_rows), flags=cv2.INTER_LINEAR)
 
-# 원본 이미지와 회전 및 확대된 이미지를 한 화면에 비교하세요
+# 요구사항 4: 원본 이미지와 회전 및 확대된 이미지를 한 화면에 비교하세요
 plt.figure(figsize=(10, 5))
 
 plt.subplot(1, 2, 1)
