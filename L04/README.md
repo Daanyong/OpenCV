@@ -8,7 +8,7 @@
     img = cv.imread('soccer.jpg')
 #### 요구사항 2: cv.cvtColor()를 사용해 이미지를 그레이스케일로 변환
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-#### 3: cv.threshold()를 사용해 이진화, 임계값: 127
+#### 요구사항 3: cv.threshold()를 사용해 이진화, 임계값: 127
     retval, binary = cv.threshold(gray, 127, 255, cv.THRESH_BINARY)
 #### 요구사항 4: cv.calcHist()를 사용해 히스토그램을 계산하고, matplotlib으로 시각화
     hist = cv.calcHist([gray], [0], None, [256], [0, 256])
