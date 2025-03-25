@@ -2,7 +2,9 @@
 
 ## 01. 이진화 및 히스토그램 구하기
 이미지를 그레이스케일로 변환
+
 특정 임계값을 설정하여 이진화
+
 이진화된 이미지의 히스토그램을 계산하고 시각화
 #### 요구사항 1: cv.imread()를 사용하여 이미지 로드
     img = cv.imread('soccer.jpg')
@@ -15,13 +17,15 @@
     hist_binary = cv.calcHist([binary], [0], None, [256], [0, 256])
 
     plt.figure(figsize=(12, 5))
-    
+
+    # 원본 그레이스케일 이미지의 히스토그램
     plt.subplot(1, 2, 1)
     plt.plot(hist_gray, color='b', linewidth=1)
     plt.title('Histogram of Grayscale Image')
     plt.xlabel('Pixel Value')
     plt.ylabel('Frequency')
     
+    # 이진화된 이미지의 히스토그램: 0과 1로만 수행됨
     plt.subplot(1, 2, 2)
     plt.plot(hist_binary, color='b', linewidth=1)
     plt.title('Histogram of Binary Image')
@@ -36,6 +40,7 @@
 
 ## 02. 모폴로지 연산 적용하기
 주어진 이진화된 이미지에 대해 다음 모폴로지 연산을 적용
+
 팽창(Dilation), 침식(Erosion), 열림(Open), 닫힘(Close)
 #### 요구사항 1: cv.getStructuringElement()를 사용하여 사각형 커널(5x5)을 만드세요
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
@@ -45,20 +50,26 @@
     opening = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
     closing = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
 #### 요구사항 3: 원본 이미지와 모폴로지 연산 결과를 한 화면에 출력하세요
-    result = np.hstack((image, dilation, erosion, opening, closing))
+    result = np.hstack((image, dilation, erosion, opening, closing)) # 이미지 가로로 붙이기
+
     plt.imshow(result)
+    plt.title('Original | Dilation | Erosion | Opening | Closing') # 각 항목별로 제목 붙이기
     plt.show()
 #### 결과화면
-<img width="444" alt="image" src="https://github.com/user-attachments/assets/a6defb45-4c3e-4929-90fd-3b115d21d8af" />
+<img width="419" alt="image" src="https://github.com/user-attachments/assets/3171e510-33f5-4990-839f-ab25afdb6b5c" />
+
 
 ---
 
 ## 03. 기하 연산 및선형 보간 적용하기
 주어진 이미지를 45도 회전시킵니다
+
 회전된 이미지를 1.5배 확대합니다
+
 회전 및 확대된 이미지에 선형 보간(Bilinear Interpolation)을 적용하여 부드럽게 표현하세요
 #### 요구사항 1: getRotationMatrix2D()를 사용하여 회전 변환 행렬을 생성하세요
     rotation_matrix = cv2.getRotationMatrix2D((cols / 2, rows / 2), 45, 1.5)
+    
 #### 요구사항 2: warpAffine()를 사용하여 이미지를 회전 및 확대하세요
 #### 요구사항 3: INTER_LINEAR을 사용하여 선형 보간을 적용하세요
     rotated_scaled_image = cv2.warpAffine(image, rotation_matrix, (new_cols, new_rows), flags=cv2.INTER_LINEAR)
