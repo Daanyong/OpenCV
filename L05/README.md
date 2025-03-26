@@ -10,7 +10,7 @@
     img = cv.imread('soccer.jpg')
 #### 요구사항2: cv.cvtColor()를 사용하여 그레이스케일로 변환합니다
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-### 요구사항3: cv.Sobel()을 사용하여 X축(cv.CV_64F, 1, 0)과 Y축(cv.CV_64F, 0, 1) 방향의 에지를 검출합니다
+#### 요구사항3: cv.Sobel()을 사용하여 X축(cv.CV_64F, 1, 0)과 Y축(cv.CV_64F, 0, 1) 방향의 에지를 검출합니다
     grad_x = cv.Sobel(gray, cv.CV_64F, 1, 0, ksize=3)
     grad_Y = cv.Sobel(gray, cv.CV_64F, 0, 1, ksize=3)
 #### 요구사항4: cv.magnitude()를 사용하여 에지강도를 계산합니다
