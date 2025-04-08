@@ -34,21 +34,22 @@ M, mask = cv.findHomography(src_pts, dst_pts, cv.RANSAC, 5.0)
 
 # cv.warpPerspective()를 사용하여 한 이미지를 변환하여 다른 이미지와 정렬합니다.
 # 힌트: cv.warpPerspective()를 사용할 때 출력 크기를 원본 이미지 크기와 동일하게 설정하세요.
-h1, w1 = img1.shape[:2]
+h1, w1 = img1.shape[:2] # 이미지 크기 추출
 h2, w2 = img2.shape[:2]
 
-corners1 = np.float32([[0,0],[w1,0],[w1,h1],[0,h1]]).reshape(-1,1,2)
+corners1 = np.float32([[0,0],[w1,0],[w1,h1],[0,h1]]).reshape(-1,1,2) # 이미지의 네 꼭짓점 좌표 정의
 corners2 = np.float32([[0,0],[w2,0],[w2,h2],[0,h2]]).reshape(-1,1,2)
+ # 첫 번째 이미지의 꼭짓점을 호모그래피로 변환(img1의 네 꼭짓점을 img2 좌표계에 맞춰 호모그래피 변환)
 transformed_corners1 = cv.perspectiveTransform(corners1, M)
-all_corners = np.concatenate((transformed_corners1, corners2), axis=0)
-x_min, y_min = np.int32(all_corners.min(axis=0).ravel())
+all_corners = np.concatenate((transformed_corners1, corners2), axis=0) # 두 이미지의 모든 꼭짓점을 한 배열로 병합
+x_min, y_min = np.int32(all_corners.min(axis=0).ravel()) # 전체 영역에서 좌상단, 우하단 좌표 계산 (결합 이미지의 크기를 결정)
 x_max, y_max = np.int32(all_corners.max(axis=0).ravel())
-translation_dist = [-x_min, -y_min]
+translation_dist = [-x_min, -y_min] # 이동 거리 및 변환 행렬 계산
 H_translation = np.array([[1,0,translation_dist[0]],[0,1,translation_dist[1]],[0,0,1]], dtype=np.float32)
-stitched_width = x_max - x_min
+stitched_width = x_max - x_min # 결과 이미지 결정
 stitched_height = y_max - y_min
 
-result = cv.warpPerspective(img1, H_translation.dot(M), (stitched_width, stitched_height))
+result = cv.warpPerspective(img1, H_translation.dot(M), (stitched_width, stitched_height)) # 이미지 워핑 및 정합 결과 생성
 result[translation_dist[1]:translation_dist[1]+h2, translation_dist[0]:translation_dist[0]+w2] = img2
 
 # 변환된 이미지를 원본 이미지와 비교하여 출력하세요.
