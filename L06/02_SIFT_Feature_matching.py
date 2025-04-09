@@ -16,6 +16,7 @@ kp2, des2 = sift.detectAndCompute(img2, None)
 # cv.BFMatcher() 또는 cv.FlannBasedMatcher()를 사용하여 두 영상 간 특징점을 매칭합니다.
 bf = cv.BFMatcher(cv.NORM_L2, crossCheck=True)
 matches = bf.knnMatch(des1, des2, k=2)
+matches = sorted(matches, key=lambda x: x.distance)
 
 # cv.drawMatches()를 사용하여 매칭결과를시각화합니다.
 matched_img = cv.drawMatches(img1, kp1, img2, kp2, matches[:20], None, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
