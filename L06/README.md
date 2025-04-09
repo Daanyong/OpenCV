@@ -49,6 +49,7 @@ matplotlib을 이용하여 원본 이미지와 특징점이 시각화된 이미�
 #### 요구사항 3: cv.BFMatcher() 또는 cv.FlannBasedMatcher()를 사용하여 두 영상 간 특징점을 매칭합니다.
     bf = cv.BFMatcher(cv.NORM_L2, crossCheck=True)
     matches = bf.match(des1, des2)
+    matches = sorted(matches, key=lambda x: x.distance) # 매칭 결과 거리순 정렬
 #### 요구사항 4: cv.drawMatches()를 사용하여 매칭결과를시각화합니다.
     matched_img = cv.drawMatches(img1, kp1, img2, kp2, matches[:20], None, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 #### 요구사항 5: matplotlib을 이용하여 매칭 결과를 출력하세요
@@ -58,7 +59,7 @@ matplotlib을 이용하여 원본 이미지와 특징점이 시각화된 이미�
     plt.axis('off')
     plt.show()
 #### 결과화면 
-<img width="712" alt="image" src="https://github.com/user-attachments/assets/fec8d073-18fa-479c-97c5-6082b4262949" />
+<img width="709" alt="image" src="https://github.com/user-attachments/assets/7865ffb6-9578-4b74-8b3e-24208bad8942" />
 
 ---
 
